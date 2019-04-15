@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">第一个APP</string>
+    <string name="button_1">智能客服</string>
+    <string name="button_2">登录</string>
+    <string name="menu_1">关于</string>
+    <string name="menu_2">联系我们</string>
+    <string name="menu_3">退出程序</string>
+</resources>

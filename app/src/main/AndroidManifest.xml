@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.wdh.demo">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission
+        android:name="android.permission.WRITE_APN_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <application
+        android:name="com.example.wdh.app.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/main" />
+
+        <activity
+            android:name=".IndexActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".NotificationActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.NOTIFICATIONYE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.DIERYE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".NaozhongActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.NAOZHONG" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".About"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.ABOUT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ListActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.LIST" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.REGISTER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UploadActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.UPLOAD" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".ForcedQuitBroadcast">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.FORCED_QUIT" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".AlarmReceiverActivity">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.ALARMRECEIVERACTIVITY" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".ScrollViewActivity" android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.SCROLLVIEWTEST" />
+            </intent-filter>>
+        </activity>
+        <activity android:name=".DrawPictureActivity" android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.DRAWTEST" />
+            </intent-filter>
+        </activity>
+    </application>
+
+
+
+</manifest>
