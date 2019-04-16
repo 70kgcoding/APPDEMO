@@ -64,11 +64,9 @@ public class DrawPictureActivity extends BaseActivity implements View.OnClickLis
 
     public int getdifferentnum()
     {
-        int num= (int) (Math.random()*5+1);
+        int num= (int) (Math.random()*5);
         if(num==biaoji)
             getdifferentnum();
-        else if(num>=5)
-            num=0;
         return num;
     }
 }

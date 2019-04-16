@@ -29,4 +29,5 @@ dependencies {
     implementation 'com.j256.ormlite:ormlite-android:5.1'
     implementation 'com.j256.ormlite:ormlite-core:5.1'
     implementation 'org.xutils:xutils:3.5.1'
+    implementation 'com.android.support:gridlayout-v7:28.0.0'
 }

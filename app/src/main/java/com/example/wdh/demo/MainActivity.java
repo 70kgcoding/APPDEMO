@@ -13,65 +13,43 @@ import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.wdh.app.MyApplication;
+import com.example.wdh.po.Icon;
+import com.example.wdh.util.MyBaseAdapter;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 // TODO:todo test 1
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity{
     private final int CHANGE=1;
-
-    @ViewInject(R.id.button1)
-    private Button button1;
-
-    @ViewInject(R.id.button)
-    private Button button;
 
     private Intent intent;
 
-    @ViewInject(R.id.button2)
-    private Button notificationButton;
-
-    @ViewInject(R.id.button4)
-    private Button uploadPicture;
-
-    @ViewInject(R.id.alarmButton)
-    private Button alarmButton;
 
     @ViewInject(R.id.textView)
     private TextView textView;
 
-    @ViewInject(R.id.button9)
-    private Button drawpicturebtn;
+    private GridView grid_photo;
+    private BaseAdapter mAdapter = null;
+    private ArrayList<Icon> mData = null;
 
-    @ViewInject(R.id.button8)
-    private Button scrollViewTestbtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         x.view().inject(this);
-        button1.setOnClickListener(this);
-
-        button.setOnClickListener(this);
-
-        notificationButton.setOnClickListener(this);
-
-        uploadPicture.setOnClickListener(this);
-
-        alarmButton.setOnClickListener(this);
-
-        scrollViewTestbtn.setOnClickListener(this);
-
-        drawpicturebtn.setOnClickListener(this);
 
         PackageManager pm=getPackageManager();
         try {
@@ -86,67 +64,96 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Log.e("MainActivity", "getPackageInfo failed : "+e.getMessage());
         }
 
+
+        grid_photo = (GridView) findViewById(R.id.grid_photo);
+
+        mData = new ArrayList<Icon>();
+        mData.add(new Icon(R.drawable.ic_demo, "智能客服"));
+        mData.add(new Icon(R.drawable.ic_quit, "强制退出"));
+        mData.add(new Icon(R.drawable.ic_zhinanzhen, "指南针"));
+        mData.add(new Icon(R.drawable.ic_picture, "图片"));
+        mData.add(new Icon(R.drawable.ic_naozhong, "闹钟"));
+        mData.add(new Icon(R.drawable.ic_list, "scrollview"));
+        mData.add(new Icon(R.drawable.ic_huahua, "画画"));
+        mData.add(new Icon(R.drawable.ic_user, "所有用户"));
+
+        mAdapter = new MyBaseAdapter<Icon>(mData, R.layout.grid_item) {
+            @Override
+            public void bindView(ViewHolder holder, Icon obj) {
+                holder.setImageResource(R.id.img_icon, obj.getiId());
+                holder.setText(R.id.txt_icon, obj.getiName());
+            }
+        };
+
+        grid_photo.setAdapter(mAdapter);
+
+        grid_photo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position)
+                {
+                    case 0:
+                        intent=new Intent("com.example.wdh.demo.ACTION_START");
+                        intent.addCategory("com.example.wdh.demo.LIST");
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        intent = new Intent("com.example.wdh.demo.FORCED_QUIT");
+                        sendBroadcast(intent);
+                        break;
+                    case 2:
+                        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        intent=new Intent(MainActivity.this,NotificationActivity.class);
+                        PendingIntent pendingIntent=PendingIntent.getActivity(MainActivity.this, 0, intent,
+                                PendingIntent.FLAG_CANCEL_CURRENT);
+                        Notification notification=new NotificationCompat.Builder(MainActivity.this,"default")
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setTicker("这是一个Ticker")
+                                .setContentTitle("这是通知标题")
+                                .setContentText("这是通知内容")
+                                .setWhen(System.currentTimeMillis())
+                                .setDefaults(Notification.DEFAULT_ALL)
+                                .setAutoCancel(true)
+                                .setContentIntent(pendingIntent).build();
+                        manager.notify(1,notification);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Message message=new Message();
+                                message.what=CHANGE;
+                                handler.sendMessage(message);
+                            }
+                        }).start();
+                        break;
+                    case 3:
+                        intent=new Intent("com.example.wdh.demo.ACTION_START");
+                        intent.addCategory("com.example.wdh.demo.UPLOAD");
+                        startActivity(intent);
+                        break;
+                    case 4:
+                        intent=new Intent(MainActivity.this,NaozhongActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 5:
+                        intent=new Intent(MainActivity.this,ScrollViewActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 6:
+                        intent=new Intent(MainActivity.this,DrawPictureActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 7:
+                        intent=new Intent(MainActivity.this,ShowUsersActivity.class);
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId())
-        {
-            case R.id.button1:
-                intent=new Intent("com.example.wdh.demo.ACTION_START");
-                intent.addCategory("com.example.wdh.demo.LIST");
-                startActivity(intent);
-                break;
-            case R.id.button:
-                intent = new Intent("com.example.wdh.demo.FORCED_QUIT");
-                sendBroadcast(intent);
-                break;
-            case R.id.button2:
-                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-                Intent intent=new Intent(MainActivity.this,NotificationActivity.class);
-                PendingIntent pendingIntent=PendingIntent.getActivity(MainActivity.this, 0, intent,
-                        PendingIntent.FLAG_CANCEL_CURRENT);
-                Notification notification=new NotificationCompat.Builder(MainActivity.this,"default")
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setTicker("这是一个Ticker")
-                        .setContentTitle("这是通知标题")
-                        .setContentText("这是通知内容")
-                        .setWhen(System.currentTimeMillis())
-                        .setDefaults(Notification.DEFAULT_ALL)
-                        .setAutoCancel(true)
-                        .setContentIntent(pendingIntent).build();
-                manager.notify(1,notification);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Message message=new Message();
-                        message.what=CHANGE;
-                        handler.sendMessage(message);
-                    }
-                }).start();
-                break;
-            case R.id.button4:
-                intent=new Intent("com.example.wdh.demo.ACTION_START");
-                intent.addCategory("com.example.wdh.demo.UPLOAD");
-                startActivity(intent);
-                break;
-            case R.id.alarmButton:
-                intent=new Intent(this,NaozhongActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.button8:
-                intent=new Intent(this,ScrollViewActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.button9:
-                intent=new Intent(this,DrawPictureActivity.class);
-                startActivity(intent);
-            default:
-                break;
-        }
-    }
 
     private Handler handler=new Handler(){
         @Override

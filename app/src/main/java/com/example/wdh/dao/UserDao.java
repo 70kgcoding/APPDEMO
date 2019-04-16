@@ -5,6 +5,8 @@ import android.content.Context;
 import com.example.wdh.po.User;
 import com.example.wdh.util.MyDatabaseHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -41,6 +43,29 @@ public class UserDao {
         }
     }
 
+    public void deleteByUsername(String username)
+    {
+        DeleteBuilder deleteBuilder=dao.deleteBuilder();
+        try {
+            deleteBuilder.where().eq("username",username);
+            deleteBuilder.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void deleteBySetDeleted(String username)
+    {
+        try {
+            UpdateBuilder updateBuilder=dao.updateBuilder();
+            updateBuilder.setWhere(updateBuilder.where().eq("username",username));
+            updateBuilder.updateColumnValue("deleted",1).update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     // 修改user表中的一条数据
     public void update(User data) {
         try {
@@ -50,7 +75,17 @@ public class UserDao {
         }
     }
 
-    // 查询user表中的所有数据
+    // 查询user表中的所有未删除数据
+    public List<User> selectAllNotDel() {
+        List<User> users = null;
+        try {
+            users = dao.queryBuilder().where().ne("deleted",1).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     public List<User> selectAll() {
         List<User> users = null;
         try {

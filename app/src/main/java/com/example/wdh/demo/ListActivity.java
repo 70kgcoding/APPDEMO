@@ -45,6 +45,10 @@ public class ListActivity extends BaseActivity {
                     {
                         Msg msg1 = new Msg("这是问题一的答案" , Msg.TYPE_RECEIVED);
                         msgList.add(msg1);
+                    }else
+                    {
+                            Msg msg1 = new Msg("这个问题我还不知道答案，sorry" , Msg.TYPE_RECEIVED);
+                            msgList.add(msg1);
                     }
                 }
             }

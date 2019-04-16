@@ -132,6 +132,13 @@
                 <category android:name="com.example.wdh.demo.DRAWTEST" />
             </intent-filter>
         </activity>
+        <activity android:name=".ShowUsersActivity" android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.example.wdh.demo.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.example.wdh.demo.SHOWUSERS" />
+            </intent-filter>
+        </activity>
     </application>
 
 
